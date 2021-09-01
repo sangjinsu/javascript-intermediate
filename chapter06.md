@@ -85,7 +85,7 @@ Book 인스턴스: {
    - Book 오브젝트의 [[Consturct]] 호출한다
    - 파라미터 값을 [[Construct]]로 넘겨준다
 
-2. 빈 Object 를 상성한다
+2. 빈 Object 를 생성한다
 3. 오브젝트에  공통 프로퍼티와 선택적 프로퍼티를 설정한다
 4. 오브젝트의 [[Class]] 에 "Object" 설정에 따라서 생성한 인스턴스 타입은 Object 이다
 5. Book.prototype 에 연결된 프로퍼티(메소드)를 생성한 인스턴스의 [[Prototype]]에 설정한다. 그리고 contructor 도 같이 설정한다
@@ -109,8 +109,128 @@ Book 인스턴스: {
   ```
 
   - function 오브젝트를 인스턴스로 생성한 경우 object로 인스턴스의 타입이 변경된다
-  - <u>[[Construct]] 가 실행될 때 생성한 오브젝트의 [[Class]] 에 'Object' 를 설정하기 때문이다</u>
+  - [[Construct]] 가 실행될 때 생성한 오브젝트의 [[Class]] 에 'Object' 를 설정하기 때문이다
   - <u>**object 타입으로 변경된다는 점은 인스턴스의 성격과 목적이 달라졌다는 것이다**</u>
 
 ## prototype, 상속
+
+#### Prototype 오브젝트 목적
+
+- prototype 확장
+  - prototype 에 프로퍼티를 연결하여 prototype 확장
+  - Book.prototype.getName = function(){}
+
+- 프로퍼티 공유
+
+  - **<u>생성한 인스턴스에서 원본 prototype 프로퍼티 공유</u>**
+
+  - 인스턴스는 클래스의 함수를 참조하여 사용할 뿐이다
+  - obj.getName()
+
+- 인스턴스 상속
+  - function 인스턴스를 연결하여 상속
+  - Point.prototye = new Book()
+  - 프로토타입의 상속이라고도 볼 수 있다
+
+#### 인스턴스 상속
+
+- 인스턴스 상속 방법
+  - **<u>prototype 에 연결된 프로퍼티로 인스턴스로 생성하여 상속 받을 prototype 에 연결한다</u>**
+  - <u>**prototype-based 상속이라고 한다**</u>
+
+```js
+// ES5
+function Book(title){
+    this.name = name
+}
+Book.prototype.getTitle = function(){
+    return this.title
+}
+function Point(title){
+    Book.call(this, title)
+}
+Point.prototype = Object.create(Book.prototype. {})
+
+const boj = new Point('한국사')
+console.log(boj.getTitle()) // '한국사'
+```
+
+- 자바스크립트에서 prototype 은 상속보다 프로퍼티 연결이 의미가 더 크고 인스턴스 연결도 프로퍼티 연결의 하나이다
+- ES5 상속은 OOP 상속 기능이 부족하지만 ES6의 Class로 상속을 사용한다 
+
+```js
+// ES6
+class Book{
+    constructor(title){
+        this.title = title
+    }
+    getName(){
+        return this.name
+    }
+}
+
+class Point extends Book{
+    constructor(title){
+        super(title)
+    }
+}
+
+const boj = new Point('한국사')
+console.log(boj.getTitle()) // '한국사'
+```
+
+## 프로토타입 확장 방법
+
+- prototype 에 프로퍼티를 연결하여 작성한다
+
+- name 에 프로퍼티 이름을 작성한다
+
+- prototype 에 null 을 설정하면 확장할 수 없다 
+
+- prototype 에 연결할 프로퍼티가 많을 경우
+
+  `Book.prototype = {name: value  ....}`
+
+- 하지만 프로퍼티를 많이 연결한 경우 constructor가 사라진다. 그래서 다시 constructor를 연결한다
+
+```js
+function Book(){}
+Book.prototype = {
+    constructor: Book,
+    setPoint: function(){}
+}
+```
+
+#### prototype 확장과 인스턴스 형태
+
+```js
+function Book(title){
+    this.title = title
+}
+Book.prototype.getTitle = function(){
+    return this.title
+}
+const obj = new Book('자바스크립트')
+obj.getTitle()
+```
+
+```
+obj : {
+	title: '자바스크립트'
+	__proto__ = {
+		constructor: Book,
+		getPoint: function(){},
+		__proto__: Object
+	}
+}
+```
+
+1. `function Book(title){}`
+
+   Book 오브젝트 생성
+
+2. Book.prototype에 getTitle 메소드 연결
+3. Book 인스턴스를 생성하여 obj 에 할당
+4. obj.getTitle() 호출
+5. 인스턴스를 생성하면 prototype 에 연결된 메소드를 인스턴스.메소드이름() 형태로 호출한다
 
