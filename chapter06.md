@@ -234,3 +234,48 @@ obj : {
 4. obj.getTitle() 호출
 5. 인스턴스를 생성하면 prototype 에 연결된 메소드를 인스턴스.메소드이름() 형태로 호출한다
 
+## this와 프로토타입
+
+### this로 인스턴스 참조
+
+- this 로 메소드를 호출한 인스턴스 참조
+- 인스턴스에서 메소드 호출 방법
+  - prototype 에 연결된 프로퍼티가 `__proto__` 에 설정되며 인스턴스 프로퍼티가 된다
+  - this.prototype.setPoint() 형식이 아닌 this.setPoint() 형태로 출력된다
+
+```js
+function Book(){
+    console.log(this.point)
+}
+Book.prototype.getPoint = function(){
+    this.setBook()
+    console.log(this.point)
+}
+Book.prototype.setPoint = function(){
+    this.point = 100
+}
+
+const obj = Book() // undefined
+obj.getPoint() // 100
+```
+
+## prototype 프로퍼티 공유 시점
+
+- 사용 시점에 prototype 프로퍼티 공유
+- prototype 프로퍼티로 인스턴스 생성하지만 인스턴스 프로퍼티는 원본 prototype의 프로퍼티 참조를 한다
+- 인스턴스 메소드 호출시 원본 prototype 메소드를 호출한다
+- ***<u>원본 prototype 에 메소드를 추가하면 생성된 모든 인스턴스에서 추가한 메소드를 사용할 수 있다!</u>***
+
+```js
+function Book(){
+    this.point = 100
+}
+const obj = new Book()
+obj.getPoint() // undefined
+
+Book.prototype.getPoint = function(){
+    return this.point
+}
+obj.getPoint() // 100
+```
+
