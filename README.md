@@ -4,7 +4,7 @@
 
   | Date       | Content                                                      | Link                                                         |
   | ---------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
-  | 2021.09.09 | function instance, constructor, prototype, prototype 상속, 인스턴스 prototype |                                                              |
+  | 2021.09.09 | function instance, constructor, prototype, prototype 상속, 인스턴스 prototype | [go](https://github.com/jinsuSang/javascript-intermediate/blob/main/chapter06.md) |
   | 2021.08.29 | 실행 컨텍스트 구성과 특성                                    | [go](https://github.com/jinsuSang/javascript-intermediate/blob/main/chapter05.md) |
   | 2021.08.29 | 스코프의 목적 및 특성                                        | [go](https://github.com/jinsuSang/javascript-intermediate/blob/main/chapter04.md) |
   | 2021.08.28 | Argument 처리 구조                                           | [go](https://github.com/jinsuSang/javascript-intermediate/blob/main/chapter03.md) |
