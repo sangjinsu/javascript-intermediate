@@ -158,3 +158,5 @@ console.log(result) // [10, 20, 30, 40]
 
 ![image-20211027175842773](chapter07.assets/image-20211027175842773.png)
 
+
+
