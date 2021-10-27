@@ -91,6 +91,70 @@ book.point.get.call(book.point)
 
 ## this와 apply
 
-- apply 는 call 가 같으며 파라미터가 배열이다
+- apply 사용법은 call 가 같으며 파라미터가 배열이다
 - getTotal.apply(this, [10, 20])
+- 두 번째 파라미터 수가 유동적일 때 사용하고 반면에 call()은 파라미터 수가 고정일 때 사용한다 
+
+## this와 콜백 함수
+
+- 콜백 함수가 있는 메소드는 두번째 파라미터에 this 로 참조할 오브젝트를 선택적으로 생성한다
+- map, forEach
+
+```js
+var obj = {value : 100}
+var data = [5, 6, 7]
+
+function callback(element, index, data){
+    return element + this.value
+}
+
+function get(data){
+    return data.map(callback, obj)
+}
+
+var result = get(data)
+console.log(result)
+```
+
+
+
+## this와 bind() 메소드 
+
+- 두번에 나누어 처리
+  1. function 오브젝트 생성
+  2. 생성한 function 오브젝트를 함수로 호출
+
+- 파라미터
+  - 첫번째 파라미터에 함수에서 this로 참조할 오브젝트
+  - 두번째 파라미터에 호출된 함수의 파라미터 값 
+
+```js
+var book = {
+    point: 456,
+    get() {
+        return this.point
+    }
+}
+
+var obj = book.get.bind(book)
+console.log(typeof obj)
+var result = obj()
+console.log(result) // 456
+```
+
+#### 파라미터 병합
+
+```js
+var book = {
+    get(){
+        return Array.prototype.slice.call(arguments)
+    }
+}
+var obj = book.get.bind(this, 10, 20)
+console.dir(obj)
+var result = obj(30, 40)
+console.log(result) // [10, 20, 30, 40]
+```
+
+![image-20211027175842773](chapter07.assets/image-20211027175842773.png)
 
